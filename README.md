@@ -1,7 +1,7 @@
 # AquaLiveResults_Frontend
 AquaLiveResults: Live race results from Aquarius, frontend component
 
-# Demo and Documentation
+# Demo und Dokumentation
 https://www.aqualiveresults.de/
 
 # Was ist AquaLiveReuslts?
