@@ -63,7 +63,9 @@
 				    },
 
 				columns:[ //Define Table Columns
-					{ formatter:"responsiveCollapse", width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false, responsive:0 },		
+					{ formatter:function(cell, formatterParams, onRendered){
+						return "<span class='expand-icon'>+</span>";
+					}, width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false, responsive:0 },		
 					{ title:"Ren.", field:"Race_Number", sorter:"number", hozAlign:"center", minWidth:60, widthGrow:1, responsive:1, headerSort:false },
 					{ title:"Rang", field:"Result_Rank_Int", sorter:"string", hozAlign:"center", minWidth:60, widthGrow:1, responsive:0, headerSort:false },
 					{ title:"Verein", field:"Crew_Club_Short", sorter:"string", hozAlign:"center", minWidth:100, widthGrow:3, responsive:0, headerSort:false },
@@ -97,9 +99,15 @@
 			        if(config.open){
 			            collapseEl.classList.add("open");
 			            collapseEl.style.display = '';
+			            // Change icon to -
+			            var icon = row.getElement().querySelector('.expand-icon');
+			            if(icon) icon.innerHTML = '-';
 			        }else{
 			            collapseEl.classList.remove("open");
 			            collapseEl.style.display = 'none';
+			            // Change icon to +
+			            var icon = row.getElement().querySelector('.expand-icon');
+			            if(icon) icon.innerHTML = '+';
 			        }
 			    }
 
