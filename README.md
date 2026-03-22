@@ -19,6 +19,11 @@ Work in progress
 # Daten
 Die Backend-Komponente extrahiert die Rennergebnisse und aktualisiert (im Standard alle 3 Minuten) die Datei ./public/data/aquarius_db_output.json per SFTP.
 
+# Webspace Voraussetzungen 
+Fast keine. Statisches Datei-Hosting mit SFTP Zugang ist ausreichend. 
+Die Tabelle wird vom Browser über eine Javascript Library gerendert (siehe unten Tabulator). 
+Kein PHP, keine Datenbank etc.
+
 # Aufruf
 ./public/tabulator_index.html ist die zentrale HTML Datei um die Tabelle anzuzeigen. Auf diese Datei sollte auf einer eigenen Landingpage verlinkt werden.
 
