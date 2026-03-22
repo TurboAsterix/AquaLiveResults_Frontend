@@ -1,0 +1,132 @@
+<!-- AquaLiveResults - Live Results from Aquarius Regatta Software www.aqualiveresults.de -->
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="HandheldFriendly" content="true">
+		<!-- Refresh page every 5 minutes to get new data from Aquarius -->
+		<meta http-equiv="refresh" content="300">		
+		<title>AquaLiveResults</title>
+		<link href="./dist/css/tabulator.css" rel="stylesheet">
+        <link href="./tabulatur_aqualiveresults.css" rel="stylesheet">
+
+	</head>
+	<body>
+		<div id="aqualiveresults-table"></div>
+		<script type="text/javascript" src="./dist/js/tabulator.js"></script>
+		<script type="text/javascript">
+
+			var tabledata = JSON.parse(Get("./data/aquarius_db_output.json"));
+
+			var table = new Tabulator("#aqualiveresults-table", {
+				height:window.innerHeight-20,  //set height of table to enable virtual DOM
+				virtualDom:true,
+				reactiveData:true, //turn on data reactivity
+				data:tabledata,    //load JSON data into table
+				layout:"fitColumns",
+ 				responsiveLayout:"collapse",
+				responsiveLayoutCollapseStartOpen:false,
+				headerSort:false,
+				resizableColumns:"header",	
+				
+				groupBy:function(data){
+					if (data.Comp_ID_Int == '' || data.Comp_ID_Int == data.Comp_ID_Int.defaultValue)
+					{
+						return "Rennen " + data.Race_Number + " " + data.Comp_Text; //group lines
+					} else {
+						return "Rennen " + data.Race_Number + " " + "(Lauf " + data.Comp_Number + ") " + data.Comp_Text; 
+					}
+				},
+				
+				groupHeader:function(value, count, data, group){
+		    		//value - the value all members of this group share
+		    		//count - the number of rows in this group
+		    		//data - an array of all the row data objects in this group
+		    		//group - the group component for the group
+					//Remove "(Lauf xxx)" from Grouping String
+					return value.replace(/\([\s\S]*?\)/g, ''); // + "<span style='color:#d00; margin-left:10px;'>(" + count + " item)</span>";
+				},
+				responsiveLayoutCollapseFormatter:function(data){
+					//data - an array of objects containing the column title and value for each cell
+					var list = document.createElement("ul");
+				     
+					data.forEach(function(col){
+						if (col.value !== '' && col.value !== '&nbsp;')
+						{
+				       		let item = document.createElement("li");
+				        	item.innerHTML = "<strong>" + col.title + "</strong> - " + col.value;
+				        	list.appendChild(item);
+						}
+				     });					 
+					 return Object.keys(data).length ? list : "";
+				    },
+
+				columns:[ //Define Table Columns
+					{ formatter:"responsiveCollapse", width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false, responsive:0 },		
+					{ title:"Ren.", field:"Race_Number", sorter:"number", hozAlign:"center", minWidth:60, widthGrow:1, responsive:1, headerSort:false },
+					{ title:"Rang", field:"Result_Rank_Int", sorter:"string", hozAlign:"center", minWidth:60, widthGrow:1, responsive:0, headerSort:false },
+					{ title:"Verein", field:"Crew_Club_Short", sorter:"string", hozAlign:"center", minWidth:100, widthGrow:3, responsive:0, headerSort:false },
+					{ title:"Zeit", field:"Result_Time", sorter:"string", hozAlign:"center", minWidth:60, widthGrow:1, responsive:0, headerSort:false },					
+					{ title:"Titel", field:"Comp_Text", sorter:"string", hozAlign:"center", minWidth:120, widthGrow:3, responsive:2, headerSort:false },
+					{ title:"Lauf", field:"Comp_Number", sorter:"string", hozAlign:"center", responsive:3, headerSort:false },
+					{ title:"Abt.", field:"Comp_HeatNumber_Int", sorter:"string", hozAlign:"center", minWidth:60, responsive:3, headerSort:false },
+					{ title:"Bahn", field:"Comp_Lane_Int", sorter:"string", hozAlign:"center", responsive:3, headerSort:false },	
+					{ title:"Name 1", field:"Athlet1_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },
+					{ title:"Name 2", field:"Athlet2_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 3", field:"Athlet3_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 4", field:"Athlet4_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 5", field:"Athlet5_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 6", field:"Athlet6_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 7", field:"Athlet7_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Name 8", field:"Athlet8_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+					{ title:"Steuer", field:"Cox_FormattedName", sorter:"string", hozAlign:"left", minWidth:9999, responsive:4, headerSort:false },			
+				],
+			});
+
+			// Subscribe to rowclick events, this is needed to trigger the expand/collapse of the row when the user clicks on it, as the default behavior of the expand/collapse element is to only toggle when the icon is clicked
+			table.on("rowClick", function(e, row){
+			    var config = row._row.modules.responsiveLayout;
+			    var collapseEl = config.element; //get the collapsible element for the row
+
+			    if(collapseEl){ //check if the row has any collapsed data
+
+			        config.open = !config.open; // toggle the open state
+
+			        //toggle the collapse element
+			        if(config.open){
+			            collapseEl.classList.add("open");
+			            collapseEl.style.display = '';
+			        }else{
+			            collapseEl.classList.remove("open");
+			            collapseEl.style.display = 'none';
+			        }
+			    }
+
+				//load JSON data into table
+				//table.redraw(false);
+			});
+
+			// Listen for resize
+			window.addEventListener("resize", resizeTable);
+			// Listen for orientation changes      
+			window.addEventListener("orientationchange", resizeTable);
+
+			function Get(url_to_json){
+				// Force fresh load by appending a cache-busting query parameter (helps Firefox refresh JSON reliably)
+				var cacheBuster = "_=" + new Date().getTime();
+				var separator = url_to_json.indexOf("?") > -1 ? "&" : "?";
+				var Httpreq = new XMLHttpRequest();
+				Httpreq.open("GET", url_to_json + separator + cacheBuster, false);
+				Httpreq.send(null);
+				return Httpreq.responseText;          
+			}
+			
+			function resizeTable() {
+				table.setHeight(window.innerHeight-20);
+				table.redraw(true);
+			}
+			
+		</script>
+	</body>
+</html>

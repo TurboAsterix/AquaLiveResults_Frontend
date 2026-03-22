@@ -1,0 +1,30 @@
+.tabulator .tabulator-header .tabulator-col {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  border-right: 1px solid #aaa;
+  background: #445ed3;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  vertical-align: bottom;
+  overflow: hidden;
+}
+
+.tabulator-col .tabulator-col-sorter {
+  display: none !important;
+}
+
+.tabulator-row.tabulator-group {
+  box-sizing: border-box;
+  border-bottom: 1px solid #999;
+  border-right: 1px solid #aaa;
+  border-top: 1px solid #999;
+  padding: 5px;
+  padding-left: 10px;
+  background: #445ed3;
+  color: #fff;
+  font-weight: bold;
+  min-width: 100%;
+}
