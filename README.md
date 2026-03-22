@@ -9,12 +9,12 @@ AquaLiveResults ermöglicht die (nahezu) Echtzeit-Anzeige von Regatta-Ergebnisse
 Die Ergebnisse werden auf einer Webseite dargestellt, sodass Athleten, Publikum und Veranstalter sie direkt nach dem Zieleinlauf abrufen können ohne auf den Aushang der Ergebnisse zu warten.
 
 # Frontend
-Bei diesem Repository handelt es sich um die Frontend Komponente, die auf dem Webserver deployed wird. 
+Bei diesem Repository handelt es sich um die Frontend-Komponente, die auf dem Webserver deployed wird. 
 Eine Webanwendung, die speziell für die Darstellung großer, responsiver und dynamisch geladener Tabellen optimiert ist und auf Smartphones, Tablets und Desktops funktioniert. 
 Die Tabellenzeilen können expandiert werden um Titel, Lauf, Abteilung, Bahn und Namen der Mannschaft anzuzeigen.
 
 # Daten
-Die Backendkomponente extrahiert die Rennergebnisse und aktualisiert (im Standard alle 3 Minuten) die Datei ./public/data/aquarius_db_output.json per SFTP.
+Die Backend-Komponente extrahiert die Rennergebnisse und aktualisiert (im Standard alle 3 Minuten) die Datei ./public/data/aquarius_db_output.json per SFTP.
 
 # Aufruf
 ./public/tabulator_index.html ist die zentrale HTML Datei um die Tabelle anzuzeigen. Auf diese Datei sollte auf einer eigenen Landingpage verlinkt werden.
