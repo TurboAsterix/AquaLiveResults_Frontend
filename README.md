@@ -21,7 +21,7 @@ Die Backend-Komponente extrahiert die Rennergebnisse und aktualisiert (im Standa
 
 # Webspace Voraussetzungen 
 Fast keine. Statisches Datei-Hosting mit SFTP Zugang ist ausreichend. 
-Die Tabelle wird vom Browser über eine Javascript Library gerendert (siehe unten Tabulator). 
+Die Tabelle wird vom Browser über eine Javascript Library gerendert (siehe unten: Tabulator). 
 Kein PHP, keine Datenbank etc.
 
 # Aufruf
